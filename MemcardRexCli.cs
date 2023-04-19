@@ -107,7 +107,7 @@ public static class MemcardRexCli
          var res = card.openMemoryCard(cardFile, false);
          if (res != null)
          {
-            Console.Error.WriteLine(res);
+            Console.Error.WriteLine("Failed to open card {0}: {1}", cardFile ?? "<new>", res);
             Environment.Exit(1);
          }
       };

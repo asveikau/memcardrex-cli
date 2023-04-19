@@ -18,6 +18,8 @@ Start a Visual Studio Command prompt, and ensure that GIT is on your path and wo
 
     C:\blah\whatever\memcardrex-cli> build
 
+[NB: On Windows 10, I frequently find `git` won't pull from `ssh` within scripts unless I run `set GIT_SSH=C:\windows\system32\openssh\ssh`]
+
 ### Unix with Mono
 
 Ensure that `mono` and `mcs` are installed.  Then run:

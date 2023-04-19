@@ -7,6 +7,7 @@
 //
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -17,6 +18,8 @@ public static class MemcardRexCli
    private const int DeletedMask = 0x4;
 
    private const int MaxSaves = 15;
+
+   private static readonly bool IsWindows = (Type.GetType("Mono.Runtime") == null);
 
    private enum SaveType
    {
@@ -92,6 +95,15 @@ public static class MemcardRexCli
       return r;
    }
 
+   private static string ReplaceAny(this string s, IEnumerable<string> strs, string replace)
+   {
+      foreach (var str in strs)
+      {
+         s = s.Replace(str, replace);
+      }
+      return s;
+   }
+
    private static void MainMain(string [] args)
    {
       if (args.Length < 2)
@@ -118,7 +130,14 @@ public static class MemcardRexCli
             (char)(card.saveRegion[i] >> 8),
             card.saveProdCode[i],
             card.saveIdentifier[i]
-         ).Replace("\0","");
+         ).Replace("\0","")
+          .ReplaceAny(
+            new [] { "/" }.Concat(
+                IsWindows ? new [] { "\\", ":", "\"", "?", "*", "<", ">", "|", }
+                          : new string[0]
+            ),
+            "-"
+         );
       Func<string, int> findSave = (string s) =>
       {
          int i;

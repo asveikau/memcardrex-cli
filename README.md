@@ -28,7 +28,8 @@ Ensure that `mono` and `mcs` are installed.  Then run:
 
 Run `memcardrex-cli.exe` (or `mono memcardrex-cli.exe`) for command line usage examples.
 
-    usage:  memcardrex-cli list card-filename
+    usage:  memcardrex-cli new card-filename [format]
+            memcardrex-cli list card-filename
             memcardrex-cli export card-filename <index|name> [save-filename] [format]
             memcardrex-cli import card-filename save-filename dest-index
             memcardrex-cli delete card-filename <index|name>

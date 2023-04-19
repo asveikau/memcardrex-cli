@@ -43,7 +43,8 @@ public static class MemcardRexCli
    private static void Usage()
    {
       Console.Error.WriteLine(
-          "usage:  {0} list card-filename\n" +
+          "usage:  {0} new card-filename [format]\n" +
+          "        {0} list card-filename\n" +
           "        {0} export card-filename <index|name> [save-filename] " +
                                                         "[format]\n" +
           "        {0} import card-filename save-filename dest-index\n" +
@@ -160,7 +161,28 @@ public static class MemcardRexCli
          }
       };
 
-      if (cmd == "list")
+      if (cmd == "new")
+      {
+         var cardFileOut = cardFile;
+         cardFile = null;
+
+         openCard();
+
+         var type = MemCardType.Raw;
+         var repair = false;
+
+         if (args.Length >= 3)
+            type = ParseEnumFromUser<MemCardType>(args[2]);
+         if (args.Length > 3)
+            tooManyArgs();
+
+         if (!card.saveMemoryCard(cardFileOut, (int)type, repair))
+         {
+            Console.Error.WriteLine("Failed to write {0}", cardFileOut);
+            Environment.Exit(1);
+         }
+      }
+      else if (cmd == "list")
       {
          if (args.Length > 2)
             tooManyArgs();
